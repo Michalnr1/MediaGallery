@@ -13,14 +13,23 @@ public class MediaItem
     [DynamoDBRangeKey]
     public string MediaId { get; set; } = Guid.NewGuid().ToString();
 
+    // Nazwa przyjazna dla użytkownika, podawana w pierwszym kroku
     [DynamoDBProperty]
-    public string FileName { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+
+    // Opcjonalny opis
+    [DynamoDBProperty]
+    public string Description { get; set; } = string.Empty;
+
+    // Rzeczywista nazwa pliku pobierana z samego pliku na etapie uploadu
+    [DynamoDBProperty]
+    public string OriginalFileName { get; set; } = string.Empty;
 
     [DynamoDBProperty]
     public string S3ObjectKey { get; set; } = string.Empty;
 
     [DynamoDBProperty]
-    public string Status { get; set; } = "Pending"; // Pending, Processing, Ready, Failed
+    public string Status { get; set; } = "Pending";
 
     [DynamoDBProperty]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
