@@ -8,6 +8,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // --- KONFIGURACJA AWS DYNAMODB ---
 var dynamoDbUrl = builder.Configuration.GetValue<string>("DynamoDB:ServiceURL");
 var dynamoDbConfig = new AmazonDynamoDBConfig();
@@ -30,7 +40,8 @@ await EnsureTableCreatedAsync(dynamoDbClient);
 
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
