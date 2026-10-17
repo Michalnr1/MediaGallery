@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Elementy rozwiązania/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="MediaGallery.Api/MediaGallery.Api.csproj" Id="e57377b5-a5f7-4a27-8a30-6b50a96d8446" />
+</Solution>

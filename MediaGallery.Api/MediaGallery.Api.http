@@ -1,0 +1,6 @@
+@MediaGallery.Api_HostAddress = http://localhost:5196
+
+GET {{MediaGallery.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
