@@ -7,6 +7,20 @@ services:
       - "8000:8000"
     command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
 
+  backend:
+    build:
+      context: . # Kontekst budowania to główny folder z rozwiązaniem
+      dockerfile: MediaGallery.Api/Dockerfile
+    container_name: mediagallery-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dynamodb-local
+    environment:
+      # Podwójne podkreślenie (__) nadpisuje zagnieżdżoną wartość DynamoDB:ServiceURL w .NET
+      - DynamoDB__ServiceURL=http://dynamodb-local:8000
+      - AWS_REGION=eu-central-1
+
   frontend:
     build:
       context: ./frontend

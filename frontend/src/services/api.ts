@@ -1,7 +1,7 @@
 ﻿import type { MediaItem, CreateMediaRequest, CreateMediaResponse } from '../types/media';
 
 // Domyślny adres API (można go też zmienić bezpośrednio na stronie w pasku u góry)
-let apiBaseUrl = import.meta.env.VITE_API_URL || 'https://localhost:32769';
+let apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 export const setApiBaseUrl = (url: string) => {
     apiBaseUrl = url.replace(/\/+$/, ''); // usuwa ukośnik z końca
