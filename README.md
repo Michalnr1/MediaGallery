@@ -1,6 +1,6 @@
 # 📸 MediaGallery – Cloud Native AWS Project
 
-Projekt aplikacji webowej typu galeria multimediów, zaprojektowany z myślą o wdrożeniu w chmurze AWS (w modelu serverless/kontenerowym). Aplikacja składa się z niezależnych modułów frontendu i backendu, a jej obecna wersja jest w pełni skonteneryzowana i gotowa do uruchomienia lokalnie.
+Projekt aplikacji webowej typu galeria multimediów, zaprojektowany z myślą o wdrożeniu w chmurze AWS (w modelu serverless/kontenerowym). Aplikacja składa się z niezależnych modułów frontendu i backendu. Obecna wersja jest w pełni skonteneryzowana i gotowa do uruchomienia lokalnie jednym poleceniem.
 
 Projekt powstał jako realizacja założeń architektonicznych dla środowiska AWS Academy Learner Lab.
 
@@ -14,41 +14,38 @@ Projekt powstał jako realizacja założeń architektonicznych dla środowiska A
 ## 📂 Struktura projektu
 
 * `/MediaGallery.Api` – Kod źródłowy backendu (.NET) oraz jego plik `Dockerfile`.
-* `/frontend` – Kod źródłowy interfejsu użytkownika (Vue.js) wraz z konfiguracją serwera Nginx i osobnym plikiem `Dockerfile`.
-* `docker-compose.yml` – Orkiestracja lokalnego środowiska deweloperskiego (uruchamia bazę danych DynamoDB oraz serwer frontendu).
+* `/frontend` – Kod źródłowy interfejsu użytkownika (Vue.js) wraz z konfiguracją serwera Nginx i plikiem `Dockerfile`.
+* `docker-compose.yml` – Orkiestracja lokalnego środowiska deweloperskiego (uruchamia jednocześnie bazę danych DynamoDB, API oraz serwer frontendu).
 
 ## 🛠️ Wymagania wstępne
 
-Aby uruchomić projekt lokalnie, upewnij się, że posiadasz zainstalowane:
+Aby uruchomić projekt lokalnie na dowolnym komputerze, potrzebujesz **tylko jednego** narzędzia:
 1. [Docker Desktop](https://www.docker.com/products/docker-desktop/) (uruchomiony w tle).
-2. [Visual Studio 2026](https://visualstudio.microsoft.com/) lub .NET 10 SDK.
-3. Node.js (opcjonalnie, jeśli chcesz modyfikować frontend bez przebudowywania kontenera).
 
-## 💻 Uruchomienie lokalne (Krok po kroku)
+*(Nie potrzebujesz zainstalowanego Visual Studio ani środowiska Node.js do samego uruchomienia projektu).*
 
-### Krok 1: Uruchomienie Bazy Danych i Frontendu (Docker)
+## 💻 Uruchomienie lokalne (One-Click Start)
+
 Otwórz terminal w głównym katalogu projektu (tam, gdzie znajduje się plik `docker-compose.yml`) i wykonaj polecenie:
 
 ```bash
 docker-compose up -d --build
-
 ```
 
-* Komenda pobierze oficjalny obraz `amazon/dynamodb-local`, udostępniając bazę na porcie **8000**.
-* Skompiluje i uruchomi aplikację Vue.js serwowaną przez Nginx na porcie **3000**.
+Polecenie to automatycznie:
 
-### Krok 2: Uruchomienie Backendu (API)
+1. Pobierze i uruchomi lokalną bazę DynamoDB na porcie 8000.
+2. Skompiluje kod C# i uruchomi Backend API na porcie 8080.
+3. Skompiluje aplikację Vue.js i udostępni Frontend na porcie 3000.
+4. (Backend podczas pierwszego startu samodzielnie połączy się z bazą danych i utworzy wymaganą tabelę MediaItems).
 
-1. Otwórz plik `MediaGallery.sln` w programie Visual Studio.
-2. Uruchom projekt `MediaGallery.Api` (najlepiej używając profilu z obsługą HTTPS).
-3. Backend automatycznie połączy się z lokalnym kontenerem DynamoDB i podczas pierwszego startu **utworzy wymaganą tabelę `MediaItems**`.
-4. W przeglądarce otworzy się interfejs **Swagger** (np. `https://localhost:32769/swagger`), w którym możesz testować API. Skopiuj adres bazowy API (bez `/swagger`).
+## 🌐 Dostęp do aplikacji
+Po zakończeniu budowania kontenerów:
 
-### Krok 3: Połączenie modułów
+* Interfejs Użytkownika (Frontend) jest dostępny pod adresem: http://localhost:3000
+* Dokumentacja API (Swagger) jest dostępna pod adresem: http://localhost:8080/swagger
 
-1. Wejdź w przeglądarce pod adres: [http://localhost:3000](http://localhost:3000) (Twój Frontend).
-2. W prawym górnym rogu aplikacji, w polu "Adres Backend API", wklej skopiowany wcześniej adres z Visual Studio (np. `https://localhost:32769`).
-3. Kliknij **"Połącz / Odśwież"**. Od teraz frontend komunikuje się z Twoim lokalnym API.
+Aplikacja jest od razu gotowa do pracy – Frontend domyślnie komunikuje się z adresem http://localhost:8080.
 
 ## 📡 Dostępne Endpointy API
 
